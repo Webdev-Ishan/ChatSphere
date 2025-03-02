@@ -8,8 +8,35 @@ const socketio = require('socket.io')
 const server = http.createServer(app)
 const io = socketio(server)
 
+
+let waitingusers= [] // lis of waitin users
+let room = {
+
+}  // name of different rooms
+
 io.on('connection',(socket)=>{
-    console.log('connected');
+
+    socket.on('joinroom', ()=>{
+        if (waitingusers.length > 0) {
+            
+            let partner = waitingusers.shift()
+            let roomname= `${socket.id}-${partner.id}`
+
+            socket.join(roomname)
+            partner.join(roomname)
+
+            io.to(roomname).emit("joined", roomname)
+        } else {
+            waitingusers.push(socket)
+        }
+    })
+
+    socket.on('message', (data)=>{
+        socket.broadcast.to(data.room).emit("message", data.message);
+    })
+
+
+    
 })
 
 app.set('view engine', 'ejs')

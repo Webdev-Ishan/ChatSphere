@@ -34,21 +34,21 @@
             </div>
         </div>
     </div>
-    <div id="incoming-call" class="fixed hidden z-50 w-full h-screen bg-gray-900 bg-opacity-75 flex items-center justify-center">
+    <div id="incoming-call" class="fixed hidden  z-50 w-full h-screen bg-gray-900 bg-opacity-75 flex items-center justify-center">
         <div class="bg-white p-8 rounded-md text-center">
-            <p class="mb-4">Incoming Call...</p>
-            <button id="accept-call" class="bg-green-500 text-white py-2 px-4 rounded-md">Accept</button>
-            <button id="reject-call" class="bg-red-500 text-white py-2 px-4 rounded-md ml-2">Reject</button>
+            <p class="mb-4 text-black font-mono">Incoming Call...</p>
+            <button id="accept-call" class="bg-green-500 text-white py-2 px-4 rounded-md border-2 border-black">Accept</button>
+            <button id="reject-call" class="bg-red-500 text-white py-2 px-4 rounded-md ml-2 border-black border-2">Reject</button>
         </div>
     </div>
-    <main class="flex-1 p-4 bg-gray-400 overflow-y-auto relative border-1 border-black" id="message-container">
+    <main class="flex-1 p-4 bg-zinc-400 overflow-y-auto relative border-1 border-black" id="message-container">
         <div class="text-white  absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-2/3 text-center nobody">
         No meeting or chat is present.
         </div>
     </main>
     <form id="chatform" class="bg-white p-4 flex items-center gap-4">
-        <input type="hidden" id="userid" value="">
-        <input type="text" id="messagebox" class="flex-1 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Type a message......">
+        <input type="hidden" id="userid"  value="">
+        <input type="text" id="messagebox" class="flex-1 border-1 border-black rounded-md px-3 py-2 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Type a message......">
         <button type="submit" class="bg-blue-500 text-white py-2 px-4 border-2 border-black rounded-md hover:text-black duration-300 ">Send</button>
     </form>
     <video id="local-video" class="hidden" autoplay></video>
@@ -66,6 +66,7 @@
         socket.emit("joinroom");
 
         socket.on("joined", function (roomname) {
+            console.log("joined")
             room = roomname;
             document.querySelector(".nobody").classList.add("hidden");
         })
@@ -86,7 +87,7 @@
             userMessageContainer.classList.add('flex', 'my-2', 'justify-end');
 
             const userMessageDiv = document.createElement('div');
-            userMessageDiv.classList.add('bg-blue-500', 'text-white', 'p-3', 'rounded-lg', 'max-w-xs');
+            userMessageDiv.classList.add('bg-blue-500', 'text-white', 'p-3', 'rounded-lg', 'max-w-xs','border-2', 'border-black','text-wrap');
 
             const userMessageText = document.createElement('p');
             userMessageText.textContent = message;
@@ -105,7 +106,7 @@
             messageContainer.classList.add('flex', 'my-2', 'justify-start');
 
             const messageDiv = document.createElement('div');
-            messageDiv.classList.add('bg-gray-300', 'text-gray-800', 'p-3', 'rounded-lg', 'max-w-xs');
+            messageDiv.classList.add('bg-white', 'text-black', 'p-3','border-2','border-black', 'rounded-lg', 'max-w-xs', 'text-wrap');
 
             const messageText = document.createElement('p');
             messageText.textContent = message;
@@ -147,6 +148,7 @@
                 console.log("Rejected by browser" + err);
             }
         }
+
 
         const initiateOffer = async () => {
             await createPeerConnection();
