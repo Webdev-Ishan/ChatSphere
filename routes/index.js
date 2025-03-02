@@ -8,4 +8,10 @@ res.render('index.ejs')
 
 })
 
+Router.get('/chat', (req,res)=>{
+
+    res.render('chat.ejs')
+    
+    })
+
 module.exports = Router
